@@ -74,7 +74,7 @@ data = load_data(data_file)
 if page == "Home":
     st.header("Welcome to the Expense Prediction Dashboard")
     st.markdown("Navigate through the app using the sidebar.")
-    st.image("home.jpeg", use_container_width=True)
+   
 
 elif page == "Data Insights":
     st.header("Dataset Insights")
