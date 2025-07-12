@@ -67,9 +67,8 @@ st.sidebar.title("DashBoard")
 page = st.sidebar.radio("Go to", ["Home", "Data Insights", "Prediction"])
 
 # Load dataset
-data_file = "insurance.csv"
-data = pd.read_csv(data_file)
-data = load_data(data_file)
+data = pd.read_csv("insurance.csv")
+data = load_data("insurance.csv")
 
 if page == "Home":
     st.header("Welcome to the Expense Prediction Dashboard")
