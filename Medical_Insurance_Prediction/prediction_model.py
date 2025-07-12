@@ -4,8 +4,12 @@ from sklearn.linear_model import LinearRegression
 import joblib
 import os
 
+# Get base directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Load dataset and preprocess
-def load_data(file_path):
+def load_data(file_name):
+    file_path = os.path.join(BASE_DIR, file_name)
     data = pd.read_csv(file_path)
 
     # Map categorical variables to numeric
@@ -25,14 +29,14 @@ def train_model(data):
     model.fit(X_train, y_train)
 
     # Save the trained model and feature columns
-    joblib.dump(model, 'insurance_model.pkl')
-    joblib.dump(X.columns.tolist(), 'model_columns.pkl')  # Save feature column names
+    joblib.dump(model, os.path.join(BASE_DIR, 'insurance_model.pkl'))
+    joblib.dump(X.columns.tolist(), os.path.join(BASE_DIR, 'model_columns.pkl'))
     return model
 
 # Predict expenses
 def predict_expenses(input_data):
-    model_path = 'insurance_model.pkl'
-    columns_path = 'model_columns.pkl'
+    model_path = os.path.join(BASE_DIR, 'insurance_model.pkl')
+    columns_path = os.path.join(BASE_DIR, 'model_columns.pkl')
 
     # Train the model if it doesn't exist
     if not os.path.exists(model_path) or not os.path.exists(columns_path):
@@ -48,8 +52,6 @@ def predict_expenses(input_data):
 
     # Ensure missing columns are filled with 0
     input_df = input_df.reindex(columns=model_columns, fill_value=0)
-
-    # Check for NaN values and fill them
     input_df = input_df.fillna(0)
 
     # Predict and return result
